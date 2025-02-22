@@ -1,0 +1,104 @@
+# 一键解决隐藏问题脚本
+
+### Introducion 简介
+一个致力于帮助您通过 检测软件(如牛头Native test，Momo)的 脚本
+
+此脚本只能帮你通过 某些检测软件的 某些错误提示
+
+如果执行了脚本后检测软件提示了其他错误，请检查你是否有隐藏好环境
+
+如果脚本出现错误，请私信 酷安@yu13140 以报告问题
+
+### Usage 使用方法
+1.确认MT管理器已经拥有Root权限
+2.打开MT管理器(最好不是特别老的版本)
+3.点击下载好的脚本，点击设置
+4.勾选*使用 ROOT权限 执行*，上面那两项随便选(哪项可以执行选哪项)
+<4.1 对于Kitsune Mask(狐狸面具)用户，请使用MT扩展包选项>
+5.点击 执行 按钮，按脚本要求操作
+特别地：如果执行脚本时出现了错误，请你私信酷安@yu13140以报告脚本错误
+
+### Changelog 日志
+#从v4.2ultra版本开始，脚本支持Gitlab云端更新
+####v2
+1.删除了对红魔手机的支持
+2.针对data分区未解密的用户，切换了脚本加密方式
+
+####v2.1beta
+1.Holmes：Miscellaneous Check (a) (实验中)
+2.Ruru：环境检测中TWRP/XPrivacyLua/Xposed Edge被发现
+
+####v2.2
+1.快捷开关开发者模式
+
+####v3.0beta
+1.优化了脚本执行UI界面：主菜单优化为滚动形式
+2.微微地精简且美化了脚本代码
+3.删除了对索尼手机的支持
+4.Momo：设备正在使用非原厂设备 (实验中)
+5.Native Detector：Detected LSPosed (5)
+6.Hunter：SafetyDetectClient Check [Root/Unlock]
+7.Hunter：Find Risk File(shizuku)
+
+####v3.1
+1.添加了对APatch与APatch Next的识别
+
+####v3.1orange
+1.添加了对已经刷入Zygisk Next模块的KSU的识别
+
+####v3.1FIX
+1.修复了解决"匹配CTS文件❌"问题的代码错误
+2.添加了对KernelSU与KernelSU Next的识别
+3.修正了Futile Hide (10)的错误代码
+
+####v4.0RC
+1.使用ChatGPT对代码进行了部分精简和美化
+2.添加了对APatch Ci和Kitsune Mask(狐狸面具)的识别
+3.加快了脚本响应速度
+4.修复了在不同手机上脚本出错的问题
+5.Holmes：Something Wrong
+6.Native Test：Futile Hide (01)
+
+####v4.1
+1.添加了更新模块功能
+2.修复了Holmes：Something Wrong的代码错误
+3.Native Test：Conventional Tests (1)      
+4.Native Test：Evil Service (2)
+5.Native Test：Found Injection (04)
+6.Holmes：Found Injection (9ff)/Evil Modification (7) (实验中)
+
+####v4.1FIX
+1.添加了配置隐藏应用列表功能(过Luna)
+2.修复了Momo：设备正在使用非原厂系统的错误代码
+3.删除了对APatch Ci的识别(Ci实在是太多版本了，但能正常用)
+4.优化了Holmes：Miscellaneous Check (a)的代码
+5.Hunter：当前手机 已经被解锁/Boot分区签名失败
+
+####v4.2
+1.添加了一键模块的功能(KernelSU GKI模式除外)
+2.一键模块功能移除对APatch系列的支持(peekaboo请自行嵌入)
+3.Holmes：Miscellaneous Check (a)代码已迁移到Something Wrong
+4.修复了识别Root方式失误的问题
+5.增强了脚本兼容性
+
+####v4.2ultra
+1.修复了部分APatch以及KernelSU安装不了模块的问题
+2.优化了部分代码，增强了对低版本Root管理器的兼容性
+3.对于Kitsune(狐狸面具)用户，改为使用更兼容的ReZygisk
+4.一键模块功能已支持用户手动选择是否删除所有模块
+5.一键模块功能添加了自动神仙救砖模块
+6.添加对MT扩展包的支持
+7.模块改为使用Gitlab直链下载
+8.RootbeerFresh：SElinux Flag is Enabled
+9.Magisk检测应用：init.rc已被Magisk修改
+10.Momo：tee损坏
+
+####v4.3test
+1.自动更新LSPosed配置(仅限刚刷模块的用户)
+2.添加一键安装检测软件功能
+3.美化了互动界面UI：更改字体颜色
+4.修复了脚本权限不足的问题
+
+####v4.3FIX
+1.由于Gitlab的原因，现把脚本迁移到Github
+2.以后将在Github云端更新，使用cdn加速
