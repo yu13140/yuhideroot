@@ -143,7 +143,8 @@ KSUSFS_FILES=$(find "$KSUSFS_DIR" -maxdepth 1 -type f -name "*ksu_susfs*" 2>/dev
 
 if [[ -z "$KSUSFS_FILES" ]]; then
     echo "❌ 错误: 在 $KSUSFS_DIR 目录下未找到 ksu_susfs 文件"
-    exit 1
+    echo "正在尝试更新susfs4ksu"
+    susfs_checking
 fi
 
 LATEST_VERSION=""
@@ -389,18 +390,7 @@ echo "===== 自动获取隐藏UID目录并执行sus完成 ====="
 echo "===== author:酷安@幽影WF ====="
 
 echo "===== 正在清理外部储存(可选) ====="
-options=("是" "否")
-PS3="请问是否要清理？"
-select choice in "${options[@]}"; do
-    case $extra_choice in
-        "是")
-         echo "即将开始清理……"; break ;;
-        "否")
-         echo "正在退出脚本……"; exit 0 ;;
-        *) 
-         echo "输入错误，退出脚本。"; exit 0 ;;
-    esac
-done
+asking
 
 for base_dir in "${clean_dirs[@]}"; do
     for app_path in "${deny_list[@]}"; do
@@ -414,6 +404,22 @@ done
 
 echo "清理完成✅"
 echo "========================================"
+
+asking() {
+echo "请问是否要继续清理？"
+echo "1.清理                         2.不清理"
+echo "请输入对应的选项：$RE\c"
+
+read cleaning
+case $cleaning in
+    1) 
+    break ;;
+    2) 
+    exit 0 ;;
+    *)
+    echos "$YE输入错误，请重新输入" ;;
+esac
+}
 
 # 由 susfs4ksu 的 action.sh 修改而来
 susfs_checking() {
@@ -445,6 +451,8 @@ fi
 echo "[-] Kernel is using susfs $SUSFS_VERSION_RAW"
 echo "[-] Downloading susfs $SUSFS_VERSION_RAW from the internet"
 
+mkdir -p "${TMPDIR}"
+export PATH="/data/cache/recovery/yshell:$PATH"
 rshy --download "https://raw.githubusercontent.com/sidex15/susfs4ksu-binaries/main/$1/$2/ksu_susfs_arm64" "${TMPDIR}/ksu_susfs_remote"
 chmod +x ${TMPDIR}/ksu_susfs_remote
 
