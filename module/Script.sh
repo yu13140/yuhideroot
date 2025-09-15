@@ -131,6 +131,66 @@ clean_dirs=(
     "/storage/emulated/0/Android/obb"
 )
 
+asking() {
+echo "请问是否要继续清理？"
+echo "1.清理                         2.不清理"
+echo "请输入对应的选项：$RE\c"
+
+read cleaning
+case $cleaning in
+    1) 
+    break ;;
+    2) 
+    exit 0 ;;
+    *)
+    echos "$YE输入错误，请重新输入"; asking ;;
+esac
+}
+
+# 由 susfs4ksu 的 action.sh 修改而来
+susfs_checking() {
+SUSFSD=/data/adb/ksu/bin/susfsd
+KSU_BIN=/data/adb/ksu/bin/
+TMPDIR=/data/adb/ksu/susfs4ksu
+
+echo "***************************************"
+echo "SUSFS4KSU Userspace tool update script"
+echo "***************************************"
+
+ver=$(uname -r | cut -d. -f1)
+if [ ${ver} -lt 5 ]; then
+    KERNEL_VERSION=non-gki
+	echo "[-] Non-GKI kernel detected... use non-GKI susfs bins..."
+    SUSFS_VERSION_RAW=$(${SUSFSD} version)
+    # Example output = 'v1.5.3'
+    SUSFS_DECIMAL=$(echo "$SUSFS_VERSION_RAW" | sed 's/^v//; s/\.//g')
+    # SUSFS_DECIMAL = '153'
+else
+	KERNEL_VERSION=gki
+	echo "[-] GKI kernel detected... use GKI susfs bins..."
+    SUSFS_VERSION_RAW=$(${SUSFSD} version)
+    # Example output = 'v1.5.3'
+    SUSFS_DECIMAL=$(echo "$SUSFS_VERSION_RAW" | sed 's/^v//; s/\.//g')
+    # SUSFS_DECIMAL = '153'
+fi
+
+echo "[-] Kernel is using susfs $SUSFS_VERSION_RAW"
+echo "[-] Downloading susfs $SUSFS_VERSION_RAW from the internet"
+
+mkdir -p "${TMPDIR}"
+export PATH="/data/cache/recovery/yshell:$PATH"
+rshy --download "https://raw.githubusercontent.com/sidex15/susfs4ksu-binaries/main/$1/$2/ksu_susfs_arm64" "${TMPDIR}/ksu_susfs_remote"
+chmod +x ${TMPDIR}/ksu_susfs_remote
+
+if ${TMPDIR}/ksu_susfs_remote > /dev/null 2>&1 ; then
+    cp -f ${TMPDIR}/ksu_susfs_remote ${KSU_BIN}/ksu_susfs
+    echo "[-] Update Complete!"
+else
+    echo "[!] Download Test Failed"
+    echo "[!] Update Failed"
+fi
+}
+
 echo "===== 开始执行一键配置sus路径 ====="
 echo "===== author:酷安@幽影WF ====="
 
@@ -404,63 +464,3 @@ done
 
 echo "清理完成✅"
 echo "========================================"
-
-asking() {
-echo "请问是否要继续清理？"
-echo "1.清理                         2.不清理"
-echo "请输入对应的选项：$RE\c"
-
-read cleaning
-case $cleaning in
-    1) 
-    break ;;
-    2) 
-    exit 0 ;;
-    *)
-    echos "$YE输入错误，请重新输入" ;;
-esac
-}
-
-# 由 susfs4ksu 的 action.sh 修改而来
-susfs_checking() {
-SUSFSD=/data/adb/ksu/bin/susfsd
-KSU_BIN=/data/adb/ksu/bin/
-TMPDIR=/data/adb/ksu/susfs4ksu
-
-echo "***************************************"
-echo "SUSFS4KSU Userspace tool update script"
-echo "***************************************"
-
-ver=$(uname -r | cut -d. -f1)
-if [ ${ver} -lt 5 ]; then
-    KERNEL_VERSION=non-gki
-	echo "[-] Non-GKI kernel detected... use non-GKI susfs bins..."
-    SUSFS_VERSION_RAW=$(${SUSFSD} version)
-    # Example output = 'v1.5.3'
-    SUSFS_DECIMAL=$(echo "$SUSFS_VERSION_RAW" | sed 's/^v//; s/\.//g')
-    # SUSFS_DECIMAL = '153'
-else
-	KERNEL_VERSION=gki
-	echo "[-] GKI kernel detected... use GKI susfs bins..."
-    SUSFS_VERSION_RAW=$(${SUSFSD} version)
-    # Example output = 'v1.5.3'
-    SUSFS_DECIMAL=$(echo "$SUSFS_VERSION_RAW" | sed 's/^v//; s/\.//g')
-    # SUSFS_DECIMAL = '153'
-fi
-
-echo "[-] Kernel is using susfs $SUSFS_VERSION_RAW"
-echo "[-] Downloading susfs $SUSFS_VERSION_RAW from the internet"
-
-mkdir -p "${TMPDIR}"
-export PATH="/data/cache/recovery/yshell:$PATH"
-rshy --download "https://raw.githubusercontent.com/sidex15/susfs4ksu-binaries/main/$1/$2/ksu_susfs_arm64" "${TMPDIR}/ksu_susfs_remote"
-chmod +x ${TMPDIR}/ksu_susfs_remote
-
-if ${TMPDIR}/ksu_susfs_remote > /dev/null 2>&1 ; then
-    cp -f ${TMPDIR}/ksu_susfs_remote ${KSU_BIN}/ksu_susfs
-    echo "[-] Update Complete!"
-else
-    echo "[!] Download Test Failed"
-    echo "[!] Update Failed"
-fi
-}
